@@ -1,3 +1,8 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
+const https = require("follow-redirects").https;
+
 // Express to run server and routes
 const express = require("express");
 
@@ -17,7 +22,7 @@ app.use(cors());
 
 app.use(express.static("src/client"));
 
-app.get("/", function (req, res) {
+app.get("/", (req, res) => {
   res.sendFile(path.resolve("src/client/views/index.html"));
 });
 
@@ -32,3 +37,32 @@ function listening() {
   console.log("##                             ##");
   console.log("#################################");
 }
+
+app.post("/lang", (req, res) => {
+  const text = req.body.data;
+  const key = process.env.API_KEY;
+  const path = "/lang-2.0?key=" + key + "&txt=" + encodeURIComponent(text.trim());
+
+  console.log(path);
+
+  const options = {
+    method: "POST",
+    hostname: "api.meaningcloud.com",
+    path: path,
+    headers: {},
+    maxRedirects: 20,
+  };
+
+  const request = https.request(options, (response) => {
+    const chunks = [];
+
+    response.on("data", (chunk) => {
+      chunks.push(chunk);
+      var body = Buffer.concat(chunks).toString();
+      console.log(body);
+      res.send(body);
+    });
+  });
+
+  request.end();
+});
