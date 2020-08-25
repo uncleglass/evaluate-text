@@ -17,3 +17,24 @@ const checkLanguage = async (text) => {
     console.log("error", error);
   }
 };
+
+const isLanguageHasModel = (lang) => {
+  const countriesWithModel = ["English", "Spanish", "French", "Italian", "Portuguese", "Catalan"];
+  if (countriesWithModel.includes(lang)) {
+    return true;
+  }
+  return false;
+};
+
+const getModelCode = (lang) => {
+  const models = new Map([
+    ["English", "IPTC_en"],
+    ["Spanish", "IPTC_es"],
+    ["French", "IPTC_fr"],
+    ["Italian", "IPTC_it"],
+    ["Portuguese", "IPTC_pt"],
+    ["Catalan", "IPTC_ca"],
+  ]);
+
+  return models.get(lang);
+};

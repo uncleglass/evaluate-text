@@ -38,11 +38,40 @@ function listening() {
   console.log("#################################");
 }
 
-app.post("/lang", (req, res) => {
-  const text = req.body.data;
-  const key = process.env.API_KEY;
-  const path = "/lang-2.0?key=" + key + "&txt=" + encodeURIComponent(text.trim());
+const key = process.env.API_KEY;
 
+app.post("/lang", (req, res) => {
+  const { data } = req.body;
+  const path = "/lang-2.0?key=" + key + "&txt=" + encodeURIComponent(data.trim());
+  console.log(path);
+
+  const options = {
+    method: "POST",
+    hostname: "api.meaningcloud.com",
+    path: path,
+    headers: {},
+    maxRedirects: 20,
+  };
+
+  const request = https.request(options, (response) => {
+    const chunks = [];
+
+    response.on("data", (chunk) => {
+      chunks.push(chunk);
+      var body = Buffer.concat(chunks).toString();
+      console.log(body);
+      res.send(body);
+    });
+  });
+
+  request.end();
+});
+
+app.post("/class", (req, res) => {
+  console.log(req.body);
+  const { data, model } = req.body;
+  const path =
+    "/class-2.0?key=" + key + "&txt=" + encodeURIComponent(data.trim()) + "&model=" + model;
   console.log(path);
 
   const options = {
