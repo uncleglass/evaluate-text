@@ -1,5 +1,5 @@
-const checkLanguage = async (text) => {
-  const response = await fetch("/lang", {
+export const checkLanguage = async (text) => {
+  const response = await fetch("http://localhost:8082/lang", {
     method: "POST",
     credentials: "same-origin",
     headers: {
@@ -18,7 +18,7 @@ const checkLanguage = async (text) => {
   }
 };
 
-const isLanguageHasModel = (lang) => {
+export const isLanguageHasModel = (lang) => {
   const countriesWithModel = ["English", "Spanish", "French", "Italian", "Portuguese", "Catalan"];
   if (countriesWithModel.includes(lang)) {
     return true;
@@ -26,7 +26,7 @@ const isLanguageHasModel = (lang) => {
   return false;
 };
 
-const getModelCode = (lang) => {
+export const getModelCode = (lang) => {
   const models = new Map([
     ["English", "IPTC_en"],
     ["Spanish", "IPTC_es"],

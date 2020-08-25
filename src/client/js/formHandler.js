@@ -1,17 +1,17 @@
-const handleSubmit = async (event) => {
+ export const handleSubmit = async (event) => {
   event.preventDefault();
 
   const text = document.getElementById("text").value;
-  const lang = await checkLanguage(text);
+  const lang = await Client.checkLanguage(text);
 
   const langParagraph = document.getElementById("lang");
   const classDiv = document.getElementById("classification");
   classDiv.innerHTML = "";
   langParagraph.textContent = `The entered text is in ${lang}.`;
 
-  if (isLanguageHasModel(lang)) {
-    console.log(getModelCode(lang));
-    const classification = await checkClassification(text, getModelCode(lang));
+  if (Client.isLanguageHasModel(lang)) {
+    console.log(Client.getModelCode(lang));
+    const classification = await Client.checkClassification(text, Client.getModelCode(lang));
     const list = document.createElement("ul");
     for (const key in classification) {
       console.log(key);
@@ -22,7 +22,7 @@ const handleSubmit = async (event) => {
       list.appendChild(li);
     }
     const header = document.createElement("h3");
-    header.textContent = 'Text classification:'
+    header.textContent = "Text classification:";
     classDiv.appendChild(header);
     classDiv.appendChild(list);
     console.log(classification);

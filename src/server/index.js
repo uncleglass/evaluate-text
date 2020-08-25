@@ -20,13 +20,13 @@ app.use(bodyParser.json());
 const cors = require("cors");
 app.use(cors());
 
-app.use(express.static("src/client"));
+app.use(express.static("dist"));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.resolve("src/client/views/index.html"));
+  res.sendFile(path.resolve("dist/index.html"));
 });
 
-const port = 8080;
+const port = 8082;
 app.listen(port, listening);
 
 function listening() {
