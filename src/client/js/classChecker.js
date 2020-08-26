@@ -1,4 +1,4 @@
-export const checkClassification = async (text, modelCode) => {
+export async function checkClassification(text, modelCode) {
   const response = await fetch("http://localhost:8082/class", {
     method: "POST",
     credentials: "same-origin",
